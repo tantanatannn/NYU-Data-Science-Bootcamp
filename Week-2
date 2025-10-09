@@ -1,0 +1,307 @@
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "id": "374d1cd1",
+   "metadata": {},
+   "source": [
+    "# Data Science Bootcamp Week 2\r",
+    "## Numpy Practice Questions\n",
+    "**Q1. Define two custom numpy arrays, say A and B. Generate two new numpy arrays by stacking A and B vertically and horizontally.**"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 1,
+   "id": "0b9e6f15",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "V:\n",
+      " [[1 3 5 7 9]\n",
+      " [2 3 4 5 6]]\n",
+      "H:\n",
+      " [1 3 5 7 9 2 3 4 5 6]\n"
+     ]
+    }
+   ],
+   "source": [
+    "import numpy as np\n",
+    "# defining arrays\n",
+    "A = np.array([1, 3, 5, 7, 9])\n",
+    "B = np.array([2, 3, 4, 5, 6])\n",
+    "V = np.vstack((A, B))\n",
+    "H = np.hstack((A, B))\n",
+    "print(\"V:\\n\", V)\n",
+    "print(\"H:\\n\", H)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "1fef2518-929d-4bff-8aa2-71e6683e226b",
+   "metadata": {},
+   "source": [
+    "**Q2. Find common elements between A and B. [Hint: Intersection of two sets]**"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 2,
+   "id": "874bb5b7-01ea-4a06-bf96-a1eb4b3b9291",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "common elements: [3 5]\n"
+     ]
+    }
+   ],
+   "source": [
+    "common = np.intersect1d(A, B)\n",
+    "print(\"common elements:\", common)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "9b5ae7a9-6dce-4aa2-8f6f-51fb3bf87e27",
+   "metadata": {},
+   "source": [
+    "**Q3. Extract all numbers from A which are within a specific range. (eg. between 5 and 10) [Hint: np.where() might be useful or boolean masks]**"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 3,
+   "id": "51c11141-3a11-41f4-8b86-c96da0a26f8b",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "values in A between 5 and 10: [5 7 9]\n"
+     ]
+    }
+   ],
+   "source": [
+    "mask = (A >= 5) & (A <= 10)\n",
+    "in_range = A[mask]\n",
+    "print(\"values in A between 5 and 10:\", in_range)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "69260b72-e5c5-4837-acd4-acaf9ef3ec63",
+   "metadata": {},
+   "source": [
+    "**Q4. Filter the rows of iris_2d that has petallength (3rd column) > 1.5 and sepallength (1st column) < 5.0 (url = 'https://archive.ics.uci.edu/ml/machine-learning-databases/iris/iris.data') iris_2d = np.genfromtxt(url, delimiter=',', dtype='float', usecols=[0,1,2,3]).**"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 4,
+   "id": "603d4033-99ca-42cd-a5ce-b6af05a22269",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "filtered iris shape: (6, 4)\n",
+      "[[4.8 3.4 1.6 0.2]\n",
+      " [4.8 3.4 1.9 0.2]\n",
+      " [4.7 3.2 1.6 0.2]\n",
+      " [4.8 3.1 1.6 0.2]\n",
+      " [4.9 2.4 3.3 1. ]\n",
+      " [4.9 2.5 4.5 1.7]]\n"
+     ]
+    }
+   ],
+   "source": [
+    "url = 'https://archive.ics.uci.edu/ml/machine-learning-databases/iris/iris.data'\n",
+    "iris_2d = np.genfromtxt(url, delimiter=',', dtype='float', usecols=[0,1,2,3])\n",
+    "mask = (iris_2d[:, 2] > 1.5) & (iris_2d[:, 0] < 5.0)\n",
+    "filtered_iris = iris_2d[mask]\n",
+    "print(\"filtered iris shape:\", filtered_iris.shape)\n",
+    "print(filtered_iris)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "cfc2107f-6948-49ef-9084-d4b935ed0b44",
+   "metadata": {},
+   "source": [
+    "**Q5. Find the mean of a numeric column grouped by a categorical column in a 2D numpy array. (Optional)**"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 5,
+   "id": "71d0580c",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "mean sepalwidth by species:\n",
+      "Iris-setosa: 3.418\n",
+      "Iris-versicolor: 2.770\n",
+      "Iris-virginica: 2.974\n"
+     ]
+    }
+   ],
+   "source": [
+    "iris = np.genfromtxt(url, delimiter=',', dtype='object')\n",
+    "names = ('sepallength', 'sepalwidth', 'petallength', 'petalwidth', 'species')\n",
+    "numeric_column = iris[:, 1].astype('float') # sepalwidth\n",
+    "grouping_column = iris[:, 4] # species\n",
+    "output = []\n",
+    "species = np.unique(grouping_column)\n",
+    "for s in species:\n",
+    "    mean_val = numeric_column[grouping_column == s].mean()\n",
+    "    output.append((s.decode() if isinstance(s, bytes) else s, float(mean_val)))\n",
+    "print(\"mean sepalwidth by species:\")\n",
+    "for s, m in output:\n",
+    "    print(f\"{s}: {m:.3f}\")"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "90e62408",
+   "metadata": {},
+   "source": [
+    "## Pandas Practice Questions"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "ef687cdc-9e63-467e-98ae-fa063f4d4171",
+   "metadata": {},
+   "source": [
+    "**Q1. From df filter the 'Manufacturer', 'Model' and 'Type' for every 20th row starting from 1st (row 0). df = pd.read_csv('https://raw.githubusercontent.com/selva86/datasets/master/Cars93_miss.csv').**"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 6,
+   "id": "15bb90ba",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "every 20th row (selected columns):\n",
+      "   Manufacturer    Model     Type\n",
+      "0         Acura  Integra    Small\n",
+      "20     Chrysler  LeBaron  Compact\n",
+      "40        Honda  Prelude   Sporty\n",
+      "60      Mercury   Cougar  Midsize\n",
+      "80       Subaru   Loyale    Small\n"
+     ]
+    }
+   ],
+   "source": [
+    "import pandas as pd\n",
+    "df = pd.read_csv('https://raw.githubusercontent.com/selva86/datasets/master/Cars93_miss.csv')\n",
+    "every_20th = df.iloc[::20, :][['Manufacturer', 'Model', 'Type']]\n",
+    "print(\"every 20th row (selected columns):\")\n",
+    "print(every_20th)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "7c878af2-2479-4fee-8c1e-c38e93ff5804",
+   "metadata": {},
+   "source": [
+    "**Q2. Replace missing values in Min.Price and Max.Price columns with their respective mean. df = pd.read_csv('https://raw.githubusercontent.com/selva86/datasets/master/Cars93_miss.csv').**"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 7,
+   "id": "f9060724",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "nulls after fill:\n",
+      " Min.Price    0\n",
+      "Max.Price    0\n",
+      "dtype: int64\n"
+     ]
+    }
+   ],
+   "source": [
+    "df2 = pd.read_csv('https://raw.githubusercontent.com/selva86/datasets/master/Cars93_miss.csv').copy()\n",
+    "cols = ['Min.Price', 'Max.Price']\n",
+    "df2[cols] = df2[cols].fillna(df2[cols].mean())\n",
+    "print(\"nulls after fill:\\n\", df2[cols].isna().sum())"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "091e6577-28ef-4c74-9331-9b3eeeaf2aed",
+   "metadata": {},
+   "source": [
+    "**Q3. How to get the rows of a dataframe with row sum > 100? df = pd.DataFrame(np.random.randint(10, 40, 60).reshape(-1, 4)).**"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 8,
+   "id": "7d9140e9",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "rows with row sum > 100:\n",
+      "      0   1   2   3\n",
+      "0   36  36  28  33\n",
+      "1   38  36  30  26\n",
+      "5   29  28  13  32\n",
+      "7   24  32  36  29\n",
+      "12  30  39  36  31\n",
+      "14  39  34  23  34\n"
+     ]
+    }
+   ],
+   "source": [
+    "df3 = pd.DataFrame(np.random.randint(10, 40, 60).reshape(-1, 4))\n",
+    "rows_gt_100 = df3[df3.sum(axis=1) > 100]\n",
+    "print(\"rows with row sum > 100:\\n\", rows_gt_100)"
+   ]
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python 3 (ipykernel)",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.12.4"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 5
+}
